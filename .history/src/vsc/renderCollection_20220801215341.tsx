@@ -80,12 +80,17 @@ window.addEventListener('DOMContentLoaded', function () {
         style={{ width: '100%', whiteSpace: 'pre-wrap', marginTop: '0px' }}
       >
         <code
-          class={css`
-            white-space: pre;
-            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-            font-size: 14px;
-            line-height: 1.5;
-          `}
+          // class={css`
+          //   white-space: pre;
+          //   font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+          //   font-size: 14px;
+          //   line-height: 1.5;
+          // `}
+          style={{
+            whiteSpace: 'pre',
+            fontSize: '14px',
+            lineHeight: '1.5',
+          }}
           innerHTML={highlighted()}
         ></code>
       </pre>

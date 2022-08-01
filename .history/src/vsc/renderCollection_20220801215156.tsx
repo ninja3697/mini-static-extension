@@ -72,12 +72,12 @@ window.addEventListener('DOMContentLoaded', function () {
   render(
     () => (
       <pre
-        // class={css`
-        //   width: 100%;
-        //   white-space: pre-wrap;
-        //   margin-top: 0px;
-        // `}
-        style={{ width: '100%', whiteSpace: 'pre-wrap', marginTop: '0px' }}
+        class={css`
+          width: 100%;
+          white-space: pre-wrap;
+          margin-top: 0px;
+        `}
+        style={{ width: '100%', whiteSpace: 'pre-wrap', marginTop: 0 }}
       >
         <code
           class={css`

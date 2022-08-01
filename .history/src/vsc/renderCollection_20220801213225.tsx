@@ -5,7 +5,7 @@ import { format } from 'prettier/standalone';
 import * as parserHtml from 'prettier/parser-html';
 import * as parserCss from 'prettier/parser-postcss';
 import * as parserEspree from 'prettier/parser-espree';
-import { createResource, Show } from 'solid-js';
+import { createResource } from 'solid-js';
 import 'prism-themes/themes/prism-vs.css';
 
 import * as Prism from 'prismjs';
@@ -72,12 +72,11 @@ window.addEventListener('DOMContentLoaded', function () {
   render(
     () => (
       <pre
-        // class={css`
-        //   width: 100%;
-        //   white-space: pre-wrap;
-        //   margin-top: 0px;
-        // `}
-        style={{ width: '100%', whiteSpace: 'pre-wrap', marginTop: '0px' }}
+        class={css`
+          width: 100%;
+          white-space: pre-wrap;
+          margin-top: 0px;
+        `}
       >
         <code
           class={css`

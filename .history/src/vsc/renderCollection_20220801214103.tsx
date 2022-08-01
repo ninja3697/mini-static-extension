@@ -71,24 +71,25 @@ window.addEventListener('DOMContentLoaded', function () {
 
   render(
     () => (
-      <pre
-        // class={css`
-        //   width: 100%;
-        //   white-space: pre-wrap;
-        //   margin-top: 0px;
-        // `}
-        style={{ width: '100%', whiteSpace: 'pre-wrap', marginTop: '0px' }}
-      >
-        <code
+      <Show when={highlighted()}>
+        <pre
           class={css`
-            white-space: pre;
-            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-            font-size: 14px;
-            line-height: 1.5;
+            width: 100%;
+            white-space: pre-wrap;
+            margin-top: 0px;
           `}
-          innerHTML={highlighted()}
-        ></code>
-      </pre>
+        >
+          <code
+            class={css`
+              white-space: pre;
+              font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+              font-size: 14px;
+              line-height: 1.5;
+            `}
+            innerHTML={highlighted()}
+          ></code>
+        </pre>
+      </Show>
     ),
     root,
   );

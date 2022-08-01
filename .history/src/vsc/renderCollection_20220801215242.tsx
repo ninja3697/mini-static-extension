@@ -86,6 +86,12 @@ window.addEventListener('DOMContentLoaded', function () {
             font-size: 14px;
             line-height: 1.5;
           `}
+          style={{
+            whiteSpace: 'pre',
+            fontFamily: 'SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace',
+            fontSize: '14px',
+            lineHeight: '1.5',
+          }}
           innerHTML={highlighted()}
         ></code>
       </pre>
