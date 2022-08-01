@@ -1,0 +1,4 @@
+{
+  "presets": ["@babel/preset-env", solid,"@babel/preset-typescript"],
+  "retainLines": true
+}

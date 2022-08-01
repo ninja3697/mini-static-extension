@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "module": "ESNext",
+    "target": "ES6",
+    "lib": ["DOM", "ES6", "DOM.Iterable", "ScriptHost", "ES2016.Array.Include"],
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "rootDir": ".",
+    "outDir": "dist",
+    "noEmitOnError": true,
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
+    "forceConsistentCasingInFileNames": true,
+    "types": ["node"],
+    "resolveJsonModule": true,
+    "plugins": [
+      {
+        "name": "typescript-plugin-css-modules"
+      }
+    ]
+  },
+
+  "include": ["src/**/*.ts", "src/**/*.tsx"]
+}

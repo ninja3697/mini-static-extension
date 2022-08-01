@@ -1,0 +1,24 @@
+{
+	"compilerOptions": {
+		"strict": true,
+    "module": "ESNext",
+    "target": "esnext",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "rootDir": ".",
+    "outDir": "dist",
+    "noEmitOnError": true,
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
+    "forceConsistentCasingInFileNames": true,
+    "types": ["chrome", "jest", "node"],
+    "resolveJsonModule": true,
+    "plugins": [
+      {
+        "name": "typescript-plugin-css-modules"
+      }
+    ]
+	}
+}

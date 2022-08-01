@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "module": "ESNext",
+    "target": "esnext",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "rootDir": ".",
+    "outDir": "dist",
+    "noEmitOnError": true,
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
+    "forceConsistentCasingInFileNames": true,
+    "types": ["jest", "node"],
+    "resolveJsonModule": true,
+    "plugins": [
+      {
+        "name": "typescript-plugin-css-modules"
+      }
+    ]
+  },
+
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+
+  "ts-node": {
+    // these options are overrides used only by ts-node
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  }
+}
