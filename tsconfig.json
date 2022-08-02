@@ -7,7 +7,7 @@
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
     "sourceMap": true,
-    "rootDir": ".",
+    "rootDir": "src",
     "outDir": "dist",
     "noEmitOnError": true,
     "jsx": "preserve",
@@ -22,6 +22,5 @@
     ]
   },
 
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
-  "exclude": ["src/vsc/renderCollection.tsx"]
+  "include": ["src/**/*.ts", "src/**/*.tsx"]
 }

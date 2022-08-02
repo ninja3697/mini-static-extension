@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {},
+
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["src/designToCode/workers/webapp/webappDi.ts"]
+}

@@ -117,7 +117,7 @@ module.exports = (env, argv) => {
     resolve: {
       // support reading TypeScript and JavaScript files, 📖 -> https://github.com/TypeStrong/ts-loader
       mainFields: ['browser', 'module', 'main'], // look for `browser` entry point in imported node modules
-      extensions: ['.ts', '.js', '.tsx'],
+      extensions: ['.ts', '.js'],
     },
     module: {
       rules: [
@@ -135,7 +135,7 @@ module.exports = (env, argv) => {
             {
               loader: 'ts-loader',
               options: {
-                configFile: path.join(__dirname, './tsconfig.json'),
+                configFile: path.join(__dirname, './tsconfig.vsc.json'),
               },
             },
           ],

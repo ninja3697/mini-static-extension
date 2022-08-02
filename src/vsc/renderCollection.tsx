@@ -1,5 +1,5 @@
 //Description: Root file for loading webapp
-import { render } from 'solid-js/web';
+import { innerHTML, render } from 'solid-js/web';
 import { css, cx } from '@linaria/core';
 import { format } from 'prettier/standalone';
 import * as parserHtml from 'prettier/parser-html';
@@ -72,12 +72,12 @@ window.addEventListener('DOMContentLoaded', function () {
   render(
     () => (
       <pre
-        // class={css`
-        //   width: 100%;
-        //   white-space: pre-wrap;
-        //   margin-top: 0px;
-        // `}
-        style={{ width: '100%', whiteSpace: 'pre-wrap', marginTop: '0px' }}
+        class={css`
+          width: 100%;
+          white-space: pre-wrap;
+          margin-top: 0px;
+        `}
+        // style={{ width: '100%', whiteSpace: 'pre-wrap', marginTop: '0px' }}
       >
         <code
           class={css`
