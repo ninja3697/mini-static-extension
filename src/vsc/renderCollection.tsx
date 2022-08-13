@@ -1,19 +1,21 @@
 //Description: Root file for loading webapp
 import { innerHTML, render } from 'solid-js/web';
+import * as vscode from 'vscode';
 import { css, cx } from '@linaria/core';
 import { format } from 'prettier/standalone';
 import * as parserHtml from 'prettier/parser-html';
 import * as parserCss from 'prettier/parser-postcss';
 import * as parserEspree from 'prettier/parser-espree';
-import { createResource, Show } from 'solid-js';
-import 'prism-themes/themes/prism-vs.css';
-
+import { createResource, createSignal } from 'solid-js';
 import * as Prism from 'prismjs';
+import { getThemeFromVSCodeActiveThemeType } from '../utils/app.utils.js';
+
+import '../styles/prism-themes/vs-dark.scss';
+import '../styles/prism-themes/vs-light.scss';
 
 window.addEventListener('DOMContentLoaded', function () {
   const root = document.createElement('div');
   document.body.appendChild(root);
-
   const str = `<style>
   .shadows {
     box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.08),
@@ -45,6 +47,11 @@ window.addEventListener('DOMContentLoaded', function () {
 <button class="shadows background borders layout size">
   <img class="content_1_0" />
 </button>`;
+  vscode.window.onDidChangeActiveColorTheme(({ kind }) => setCurrentTheme(getThemeFromVSCodeActiveThemeType(kind)));
+
+  const [currentTheme, setCurrentTheme] = createSignal(
+    getThemeFromVSCodeActiveThemeType(vscode.window.activeColorTheme.kind),
+  );
 
   async function beautify(language: string, code: string, printWidth?: number): Promise<string> {
     if (language === 'css' || language === 'scss' || language === 'less') {
@@ -71,24 +78,26 @@ window.addEventListener('DOMContentLoaded', function () {
 
   render(
     () => (
-      <pre
-        class={css`
-          width: 100%;
-          white-space: pre-wrap;
-          margin-top: 0px;
-        `}
+      <div class={`vs-${currentTheme()}`}>
+        <pre
+        // class={css`
+        //   width: 100%;
+        //   white-space: pre-wrap;
+        //   margin-top: 0px;
+        // `}
         // style={{ width: '100%', whiteSpace: 'pre-wrap', marginTop: '0px' }}
-      >
-        <code
-          class={css`
-            white-space: pre;
-            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-            font-size: 14px;
-            line-height: 1.5;
-          `}
-          innerHTML={highlighted()}
-        ></code>
-      </pre>
+        >
+          <code
+            // class={css`
+            //   white-space: pre;
+            //   font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+            //   font-size: 14px;
+            //   line-height: 1.5;
+            // `}
+            innerHTML={highlighted()}
+          ></code>
+        </pre>
+      </div>
     ),
     root,
   );
