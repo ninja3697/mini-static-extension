@@ -1,17 +1,24 @@
 //Description: Root file for loading webapp
-import { innerHTML, render } from 'solid-js/web';
-import * as vscode from 'vscode';
-import { css, cx } from '@linaria/core';
+import { render } from 'solid-js/web';
 import { format } from 'prettier/standalone';
 import * as parserHtml from 'prettier/parser-html';
 import * as parserCss from 'prettier/parser-postcss';
 import * as parserEspree from 'prettier/parser-espree';
 import { createResource, createSignal } from 'solid-js';
 import * as Prism from 'prismjs';
-import { getThemeFromVSCodeActiveThemeType } from '../utils/app.utils.js';
 
 import '../styles/prism-themes/vs-dark.scss';
 import '../styles/prism-themes/vs-light.scss';
+
+const getThemeFromVSCodeActiveThemeType = (kind: number): string => {
+  switch (kind) {
+    case 1:
+    case 4:
+      return 'light';
+    default:
+      return 'dark';
+  }
+};
 
 window.addEventListener('DOMContentLoaded', function () {
   const root = document.createElement('div');
@@ -47,11 +54,22 @@ window.addEventListener('DOMContentLoaded', function () {
 <button class="shadows background borders layout size">
   <img class="content_1_0" />
 </button>`;
-  vscode.window.onDidChangeActiveColorTheme(({ kind }) => setCurrentTheme(getThemeFromVSCodeActiveThemeType(kind)));
 
-  const [currentTheme, setCurrentTheme] = createSignal(
-    getThemeFromVSCodeActiveThemeType(vscode.window.activeColorTheme.kind),
-  );
+  const [currentTheme, setCurrentTheme] = createSignal();
+
+  this.window.addEventListener('message', ({ data }) => {
+    const { command } = data;
+    switch (command) {
+      case 'set-theme':
+        const { kind } = data;
+        setCurrentTheme(getThemeFromVSCodeActiveThemeType(kind));
+        break;
+    }
+  });
+
+  //@ts-ignore
+  const vscode = acquireVsCodeApi();
+  vscode.postMessage({ command: 'loaded' });
 
   async function beautify(language: string, code: string, printWidth?: number): Promise<string> {
     if (language === 'css' || language === 'scss' || language === 'less') {
@@ -80,14 +98,16 @@ window.addEventListener('DOMContentLoaded', function () {
     () => (
       <div class={`vs-${currentTheme()}`}>
         <pre
-        // class={css`
-        //   width: 100%;
-        //   white-space: pre-wrap;
-        //   margin-top: 0px;
-        // `}
-        // style={{ width: '100%', whiteSpace: 'pre-wrap', marginTop: '0px' }}
+          class="language-html"
+          // class={css`
+          //   width: 100%;
+          //   white-space: pre-wrap;
+          //   margin-top: 0px;
+          // `}
+          // style={{ width: '100%', whiteSpace: 'pre-wrap', marginTop: '0px' }}
         >
           <code
+            class="language-html"
             // class={css`
             //   white-space: pre;
             //   font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
