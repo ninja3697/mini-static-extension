@@ -1,0 +1,348 @@
+:root {
+  --prism-scheme: light;
+
+  /* Colors */
+  --prism-foreground: var(--vscode-editor-foreground);
+  --prism-background: var(--vscode-editor-background);
+
+  /* Tokens */
+  --prism-comment: #6a9955; // #008000;
+  --prism-ctype: #808080; // #008000;
+  --prism-string: var(--vscode-debugTokenExpression-string);
+  --prism-keyword: #569cd6; // #0000ff;
+  --prism-function: #dcdcaa; // #393a34;
+  --prism-deleted: var(--prism-string);
+  --prism-important: #569cd6; // #e90;
+  --prism-class: #4ec9b0; // #2b91af;
+  --prism-tag: #569cd6; // #b5cea8;
+  --prism-builtin: var(--prism-string);
+  --prism-property: #9cdcfe; // color: #ff0000;
+  --prism-namespace: #4ec9b0; // not found
+  --prism-punctuation: var(--prism-foreground);
+  --prism-punctuation2: #808080; // not found;
+  --prism-decorator: var(--prism-class);
+  --prism-operator: var(--prism-punctuation);
+  --prism-operator-arrow: #569cd6; // not found
+  --prism-number: var(--vscode-debugTokenExpression-number);
+  --prism-boolean: var(--vscode-debugTokenExpression-boolean);
+  --prism-literal: #9cdcfe;
+  --prism-variable: #9cdcfe; //  #36acaa;
+  --prism-constant: #9cdcfe; // #36acaa;
+  --prism-symbol: #b5cea8; // #36acaa;
+  --prism-interpolation: #9cdcfe; // not found
+  --prism-artule: var(--prism-string);
+  --prism-selector: #d7ba7d; // #800000;
+  --prism-keyword-control: #c586c0; // not found
+  --prism-regex: #d16969; // #ff0000;
+  --prism-json-property: var(--prism-property);
+  --prism-inline-background: var(--prism-background);
+
+  /* Token Styles */
+  --prism-comment-style: italic;
+  --prism-url-decoration: underline;
+
+  /* Extension */
+  --prism-line-number: #a5a5a5;
+  --prism-line-number-gutter: #2b91af;
+  --prism-line-highlight-background: #f7ebc6; // rgba(193, 222, 241, 0.2);
+  --prism-selection-background: #264f78; // #c1def1;
+  --prism-marker-color: var(--prism-foreground);
+  --prism-marker-opacity: 0.4;
+  --prism-marker-font-size: 0.8em;
+
+  /* Font */
+  --prism-font-size: 13px;
+  --prism-font-family: Menlo, Monaco, Consolas, 'Andale Mono', 'Ubuntu Mono', 'Courier New', monospace; // 'Consolas', 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;
+  --prism-inline-font-size: var(--prism-font-size);
+  --prism-block-font-size: var(--prism-font-size);
+
+  /* Sizing */
+  --prism-tab-size: 4;
+  --prism-block-padding-x: 1em;
+  --prism-block-padding-y: 1em;
+  --prism-block-margin-x: 0;
+  --prism-block-margin-y: 0.5em;
+  --prism-block-radius: 0.3em;
+  --prism-inline-padding-x: 0.3em;
+  --prism-inline-padding-y: 0.1em;
+  --prism-inline-radius: 0.3em;
+}
+
+.webview {
+  /* Code blocks */
+  pre[class*='language-'],
+  code[class*='language-'] {
+    color: var(--prism-foreground);
+    font-size: var(--prism-font-size);
+    font-family: var(--prism-font-family);
+    direction: ltr;
+    text-align: left;
+    text-shadow: none;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    -moz-tab-size: var(--prism-tab-size);
+    -o-tab-size: var(--prism-tab-size);
+    tab-size: var(--prism-tab-size);
+    line-height: 1.5;
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  @media print {
+    pre[class*='language-'],
+    code[class*='language-'] {
+      text-shadow: none;
+    }
+  }
+
+  /* Code blocks */
+  pre[class*='language-'] {
+    background: var(--prism-background);
+    padding: var(--prism-block-padding-y) var(--prism-block-padding-x);
+    margin: var(--prism-block-margin-y) var(--prism-block-margin-x);
+    overflow: auto;
+    border-radius: var(--prism-block-radius);
+    font-size: var(--prism-block-font-size);
+  }
+
+  /* Inline code */
+  :not(pre) > code[class*='language-'] {
+    color: #db4c69;
+    background: var(--prism-inline-background);
+    font-size: var(--prism-inline-font-size);
+    padding: var(--prism-inline-padding-y) var(--prism-inline-padding-x);
+    border-radius: var(--prism-inline-radius);
+  }
+
+  /* Selection */
+  pre[class*='language-']::selection,
+  code[class*='language-']::selection,
+  pre[class*='language-'] *::selection,
+  code[class*='language-'] *::selection {
+    text-shadow: none;
+    background: var(--prism-selection-background);
+  }
+
+  pre[class*='language-']::-moz-selection,
+  pre[class*='language-'] ::-moz-selection,
+  code[class*='language-']::-moz-selection,
+  code[class*='language-'] ::-moz-selection {
+    text-shadow: none;
+    background: var(--prism-selection-background);
+  }
+
+  /* Tokens */
+  .token.namespace {
+    opacity: 0.7;
+    color: var(--prism-namespace);
+  }
+
+  .token.comment,
+  .token.prolog,
+  .token.doctype {
+    color: var(--prism-comment);
+  }
+
+  .token.cdata {
+    color: var(--prism-ctype);
+  }
+
+  .token.console,
+  .token.parameter,
+  .token.interpolation {
+    color: var(--prism-interpolation);
+  }
+
+  .token.string,
+  .token.char,
+  .token.attr-value .token.punctuation {
+    color: var(--prism-string);
+  }
+
+  .token.punctuation,
+  .token.atrule .token.url .token.punctuation,
+  .token.attr-value .token.punctuation.attr-equals {
+    color: var(--prism-punctuation);
+  }
+
+  .token.operator {
+    color: var(--prism-operator);
+  }
+
+  .token.keyword.module,
+  .token.keyword.control-flow,
+  .token.atrule .token.rule {
+    color: var(--prism-keyword-control);
+  }
+
+  .token.url,
+  .token.symbol,
+  .token.inserted {
+    color: var(--prism-symbol);
+  }
+
+  .token.constant {
+    color: var(--prism-constant);
+  }
+
+  .token.string.url {
+    text-decoration: var(--prism-url-decoration);
+  }
+
+  .token.boolean {
+    color: var(--prism-boolean);
+  }
+
+  .token.number {
+    color: var(--prism-number);
+  }
+
+  .token.variable {
+    color: var(--prism-variable);
+  }
+
+  .token.keyword {
+    color: var(--prism-keyword);
+  }
+
+  .token.atrule,
+  .token.attr-value {
+    color: var(--prism-artule);
+  }
+
+  .token.selector,
+  .token.escape {
+    color: var(--prism-selector);
+  }
+
+  .token.function,
+  .token.function .token.maybe-class-name,
+  .token.atrule .token.url .token.function {
+    color: var(--prism-function);
+  }
+
+  .token.deleted {
+    color: var(--prism-deleted);
+  }
+
+  .token.important {
+    font-weight: bold;
+    color: var(--prism-important);
+  }
+
+  .token.bold {
+    font-weight: bold;
+  }
+
+  .token.italic {
+    font-style: italic;
+  }
+
+  .token.class-name,
+  .token.maybe-class-name,
+  .token.imports .token.maybe-class-name,
+  .token.exports .token.maybe-class-name {
+    color: var(--prism-class);
+  }
+
+  .token.tag,
+  .token.unit,
+  .token.doctype .token.doctype-tag {
+    color: var(--prism-tag);
+  }
+
+  .token.builtin {
+    color: var(--prism-builtin);
+  }
+
+  .token.attr-name,
+  .token.property,
+  .token.entity,
+  .token.doctype .token.name {
+    color: var(--prism-property);
+  }
+
+  .token.regex {
+    color: var(--prism-regex);
+    color: #d16969; // color: #ff0000;
+  }
+
+  .token.decorator,
+  .token.annotation {
+    color: var(--prism-decorator);
+  }
+
+  .token.directive.tag .tag {
+    background: var(--prism-background);
+    color: var(--prism-foreground);
+  }
+
+  .token.operator.arrow {
+    color: var(--prism-operator-arrow);
+  }
+
+  .token.tag .token.punctuation {
+    color: var(--prism-punctuation2);
+  }
+
+  .token.atrule .token.url {
+    color: var(--prism-property);
+  }
+
+  /* Language Specific */
+
+  pre[class*='language-javascript'],
+  code[class*='language-javascript'],
+  pre[class*='language-jsx'],
+  code[class*='language-jsx'],
+  pre[class*='language-typescript'],
+  code[class*='language-typescript'],
+  pre[class*='language-tsx'],
+  code[class*='language-tsx'] {
+    color: var(--prism-literal);
+  }
+
+  pre[class*='language-css'],
+  code[class*='language-css'] {
+    color: var(--prism-string);
+  }
+
+  pre[class*='language-html'],
+  code[class*='language-html'] {
+    color: var(--prism-foreground);
+  }
+
+  .language-html .token.punctuation {
+    color: var(--prism-punctuation2);
+  }
+
+  .language-html .language-css .token.punctuation,
+  .language-html .language-javascript .token.punctuation {
+    color: var(--prism-foreground);
+  }
+
+  /* 
+    overrides color-values for the Line Numbers plugin
+    http://prismjs.com/plugins/line-numbers/
+  */
+  .line-numbers .line-numbers-rows {
+    border-right-color: var(--prism-line-number);
+  }
+
+  .line-numbers .line-numbers-rows > span:before {
+    color: var(--prism-line-number-gutter);
+    color: #2b91af;
+  }
+
+  /*
+    overrides color-values for the Line Highlight plugin
+    http://prismjs.com/plugins/line-highlight/
+  */
+
+  .line-highlight.line-highlight {
+    background: var(--prism-line-highlight-background);
+  }
+}

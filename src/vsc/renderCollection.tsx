@@ -1,6 +1,6 @@
 //Description: Root file for loading webapp
 import { innerHTML, render } from 'solid-js/web';
-import * as vscode from 'vscode';
+// import * as vscode from 'vscode';
 import { css, cx } from '@linaria/core';
 import { format } from 'prettier/standalone';
 import * as parserHtml from 'prettier/parser-html';
@@ -10,8 +10,9 @@ import { createResource, createSignal } from 'solid-js';
 import * as Prism from 'prismjs';
 import { getThemeFromVSCodeActiveThemeType } from '../utils/app.utils.js';
 
-import '../styles/prism-themes/vs-dark.scss';
-import '../styles/prism-themes/vs-light.scss';
+import '../styles/webview.scss';
+// import '../styles/prism-themes/vs-dark.scss';
+// import '../styles/prism-themes/vs-light.scss';
 
 window.addEventListener('DOMContentLoaded', function () {
   const root = document.createElement('div');
@@ -47,11 +48,11 @@ window.addEventListener('DOMContentLoaded', function () {
 <button class="shadows background borders layout size">
   <img class="content_1_0" />
 </button>`;
-  vscode.window.onDidChangeActiveColorTheme(({ kind }) => setCurrentTheme(getThemeFromVSCodeActiveThemeType(kind)));
+  // vscode.window.onDidChangeActiveColorTheme(({ kind }) => setCurrentTheme(getThemeFromVSCodeActiveThemeType(kind)));
 
-  const [currentTheme, setCurrentTheme] = createSignal(
-    getThemeFromVSCodeActiveThemeType(vscode.window.activeColorTheme.kind),
-  );
+  // const [currentTheme, setCurrentTheme] = createSignal(
+  //   getThemeFromVSCodeActiveThemeType(vscode.window.activeColorTheme.kind),
+  // );
 
   async function beautify(language: string, code: string, printWidth?: number): Promise<string> {
     if (language === 'css' || language === 'scss' || language === 'less') {
@@ -78,7 +79,8 @@ window.addEventListener('DOMContentLoaded', function () {
 
   render(
     () => (
-      <div class={`vs-${currentTheme()}`}>
+      // <div class={`vs-${currentTheme()}`}>
+      <div class="webview">
         <pre
         // class={css`
         //   width: 100%;
