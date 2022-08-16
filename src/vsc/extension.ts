@@ -3,15 +3,8 @@
 import * as vscode from 'vscode';
 import { WebviewProvider } from './panelProvider';
 
-
 export async function activate(context: vscode.ExtensionContext) {
-  const codePanelProvider = new WebviewProvider(
-    context,
-    'activitybar.codePanel',
-    'renderCollection.js',
-  );
-
-  console.log(context.extensionPath);
+  const codePanelProvider = new WebviewProvider(context, 'activitybar.codePanel', 'renderCollection.js');
 
   // Code Panel registered here
 
@@ -22,7 +15,6 @@ export async function activate(context: vscode.ExtensionContext) {
       },
     }),
   );
-
 }
 
 //Abhijit's old code

@@ -2,7 +2,6 @@
 
 import * as vscode from 'vscode';
 
-
 export function getHtmlForWebview(
   webview: vscode.Webview,
   extensionUri: vscode.Uri,
@@ -17,7 +16,7 @@ export function getHtmlForWebview(
 
   const asWebviewUri = (file: string) => {
     // const r = `vscode-resource:${[extensionPath, 'dist', file].join('/')}`;
-    const r = webview.asWebviewUri(vscode.Uri.joinPath(extensionUri,'dist', file));
+    const r = webview.asWebviewUri(vscode.Uri.joinPath(extensionUri, 'dist', file));
     return r;
   };
 
@@ -27,8 +26,6 @@ export function getHtmlForWebview(
         return newUrl;
        } 
 `;
-
-
 
   return `<!DOCTYPE html>
 			<html lang="en">
@@ -49,14 +46,13 @@ export function getHtmlForWebview(
 			</head>
 			<body>
         ${urlHandleFunction ? `<script>${urlHandleFunction}</script>` : ''}
-
         ${scripts
           .map(
             (scriptFile) => `
-          <!--${asWebviewUri(scriptFile)}-->
-        <script src="${asWebviewUri(scriptFile)}"></script>`,
+            <!--${asWebviewUri(scriptFile)}-->
+            <script src="${asWebviewUri(scriptFile)}"></script>`,
           )
-          .join('\n')}   
+          .join('\n')}
 			</body>
 			</html>`;
 }
@@ -103,6 +99,16 @@ export class WebviewProvider implements vscode.WebviewViewProvider {
       localResourceRoots: [this._context.extensionUri],
     };
 
+    vscode.window.onDidChangeActiveColorTheme(({ kind }) => panel.webview.postMessage({ command: 'set-theme', kind }));
+    panel.webview.onDidReceiveMessage((message) => {
+      const { command } = message;
+      switch (command) {
+        case 'loaded':
+          panel.webview.postMessage({ command: 'set-theme', kind: vscode.window.activeColorTheme.kind });
+          break;
+      }
+    });
+
     panel.webview.html = getHtmlForWebview(
       panel.webview,
       this._context.extensionUri,
@@ -111,7 +117,6 @@ export class WebviewProvider implements vscode.WebviewViewProvider {
       [],
       this.viewType,
     );
-
 
     // const listenerKey = dispatcher.addListener(postMessage);
 
@@ -143,7 +148,7 @@ export function createOrShowWebview(
     retainContextWhenHidden: true,
   });
 
-    panel.webview.html = getHtmlForWebview(
+  panel.webview.html = getHtmlForWebview(
     panel.webview,
     context.extensionUri,
     context.extensionPath,
