@@ -99,16 +99,6 @@ export class WebviewProvider implements vscode.WebviewViewProvider {
       localResourceRoots: [this._context.extensionUri],
     };
 
-    vscode.window.onDidChangeActiveColorTheme(({ kind }) => panel.webview.postMessage({ command: 'set-theme', kind }));
-    panel.webview.onDidReceiveMessage((message) => {
-      const { command } = message;
-      switch (command) {
-        case 'loaded':
-          panel.webview.postMessage({ command: 'set-theme', kind: vscode.window.activeColorTheme.kind });
-          break;
-      }
-    });
-
     panel.webview.html = getHtmlForWebview(
       panel.webview,
       this._context.extensionUri,

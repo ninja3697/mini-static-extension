@@ -1,44 +1,100 @@
-import { render } from 'solid-js/web';
+import * as CSS from 'csstype';
 
-window.addEventListener('DOMContentLoaded', function () {
-  const root = document.createElement('div');
-  document.body.appendChild(root);
-  render(
-    () => (
-      <div>
-        {`<style>
-  .shadows {
-    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.08),
-      0px 4px 6px rgba(50, 50, 93, 0.11);
-  }
-  .background {
-    background-color: white;
-  }
-  .borders {
-    border-width: 0px;
-    border-radius: 4px;
-  }
-  .layout {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .size {
-    width: 30px;
-    height: 28px;
-  }
-  .content_1_0 {
-    content: url("data:image/svg+xml;charset=utf8,%3Csvg%20viewBox%3D'475.0440%20193.7580%209.4290%202.5710'%20x%3D'0'%20y%3D'0'%20fill%3D'none'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%3E%20%20%20%20%20%20%20%20%20%20%20%20%3Cg%20id%3D'Icons%2F12px%2FEllipsis%20H%2FPrimary'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%3E%3Cpath%20id%3D'Icons%2F12px%2FEllipsis%20H%2FPrimary_2'%20d%3D'M477.615%20194.401C477.615%20194.046%20477.327%20193.758%20476.973%20193.758H475.687C475.332%20193.758%20475.044%20194.046%20475.044%20194.401V195.686C475.044%20196.041%20475.332%20196.329%20475.687%20196.329H476.973C477.327%20196.329%20477.615%20196.041%20477.615%20195.686V194.401ZM481.044%20194.401C481.044%20194.046%20480.756%20193.758%20480.401%20193.758H479.115C478.76%20193.758%20478.473%20194.046%20478.473%20194.401V195.686C478.473%20196.041%20478.76%20196.329%20479.115%20196.329H480.401C480.756%20196.329%20481.044%20196.041%20481.044%20195.686V194.401ZM484.473%20194.401C484.473%20194.046%20484.185%20193.758%20483.83%20193.758H482.544C482.189%20193.758%20481.901%20194.046%20481.901%20194.401V195.686C481.901%20196.041%20482.189%20196.329%20482.544%20196.329H483.83C484.185%20196.329%20484.473%20196.041%20484.473%20195.686V194.401Z'%20fill%3D'%235E72E4'%2F%3E%3C%2Fg%3E%20%20%20%20%3C%2Fsvg%3E");
-    width: 9.429px;
-    height: 2.571px;
-  }
-</style>
+export type CssClasses = { [k in string]?: Partial<CSS.PropertiesHyphen> };
 
-<button class="shadows background borders layout size">
-  <img class="content_1_0" />
-</button>`}
-      </div>
-    ),
-    root,
-  );
-});
+export type Optional<T> = T | undefined | null;
+
+function makeid(length: number) {
+  var result = '';
+  var characters = 'abcdefghijklmnopqrstuvqxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  var charactersLength = characters.length;
+  for (var i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
+
+function isValueNotNull<K, T>(elem: readonly [K, Optional<T>]): elem is [K, T] {
+  return elem[1] !== undefined && elem[1] !== null;
+}
+
+function isString(x: any): x is string {
+  return typeof x === 'string' || x instanceof String;
+}
+
+export function cssClassToString(className: string, css: CSS.PropertiesHyphen): string {
+  return `.${className} {\n${Object.entries(css)
+    .map(([key, value]) => `${key}: ${value};`)
+    .join('\n')} }`;
+}
+
+export function cssClassesToString(classes: Map<string, CSS.PropertiesHyphen>): string[] {
+  return Array.from(classes.entries()).map(([className, css]) => cssClassToString(className, css));
+}
+
+export type ChildTagContent = {
+  tagName: string; //'img' | 'button' | 'div' | 'input' | 'p' | 'span' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  css: CssClasses;
+  children?: readonly (ChildTagContent | string)[];
+  properties?: { [k in string]: string };
+};
+
+function outputClassName(classType: string, classSuffix: string, classPrefix: string): string {
+  const pseudoElements = classType.split('::');
+  const pseudos = pseudoElements[0].split(':');
+  if (classPrefix) classPrefix = `${classPrefix}-`;
+  if (classSuffix) classSuffix = `-${classSuffix}`;
+  const className = `${classPrefix}${pseudos[0]}${classSuffix}`;
+  return `${className}${pseudos.length > 1 ? ':' + pseudos.slice(1).join(':') : ''}${
+    pseudoElements.length > 1 ? '::' + pseudoElements.slice(1).join('::') : ''
+  }`;
+}
+
+export function tagToCode(
+  tag: any,
+  classSuffix: string = '',
+  skipClassTypes: string[] = [],
+): [string, Map<string, CSS.PropertiesHyphen>] {
+  const classes = new Map<string, CSS.PropertiesHyphen>();
+
+  const toHtml = (child: ChildTagContent | string, depth: number, index: number): string => {
+    if (!isString(child)) {
+      const childClasses = Object.entries(child.css)
+        .filter(isValueNotNull)
+        .filter((x) => Object.entries(x[1]).length > 0 && !skipClassTypes.includes(x[0]))
+        .map(([classType, classProperties]) => {
+          return [
+            outputClassName(
+              classType,
+              classSuffix + makeid(4) /*(depth > 0 ? `${depth}_${index}` : '')*/,
+              child.tagName,
+            ),
+            classProperties,
+          ] as const;
+        });
+
+      childClasses.forEach(([className, classProperties]) => {
+        classes.set(className, classProperties);
+      });
+
+      const classNames = childClasses.map((x) => x[0]).join(' ');
+
+      const tag = `${child.tagName} ${classNames ? `class="${classNames}"` : ``} ${
+        child.properties
+          ? Object.entries(child.properties)
+              .map(([name, value]) => `${name}="${value}"`)
+              .join(' ')
+          : ''
+      }`;
+
+      if (child.children?.length) {
+        return `
+          <${tag}> 
+            ${child.children?.map((c, index) => toHtml(c, depth + 1, index)).join('\n')}
+          </${child.tagName}>`;
+      } else return `<${tag}/>`;
+    } else return child;
+  };
+
+  return [toHtml(tag, 0, 0), classes];
+}
