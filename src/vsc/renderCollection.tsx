@@ -20,7 +20,8 @@ window.addEventListener('DOMContentLoaded', async function () {
 
   const [html, cssClasses] = tagToCode(tag);
 
-  const resources = '';
+  const resources =
+    '<link rel="stylesheet" href=https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600 />';
 
   let cssCode = `${cssClassesToString(cssClasses).join('\n')}`;
   let htmlCode = `${html}\n\n${resources}`;
