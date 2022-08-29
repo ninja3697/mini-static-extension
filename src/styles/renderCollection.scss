@@ -1,0 +1,6 @@
+.class-name {
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}

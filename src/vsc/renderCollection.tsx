@@ -4,13 +4,14 @@ import { format } from 'prettier/standalone';
 import * as parserHtml from 'prettier/parser-html';
 import * as parserCss from 'prettier/parser-postcss';
 import * as parserEspree from 'prettier/parser-espree';
-import { createResource } from 'solid-js';
+import { createEffect, createResource } from 'solid-js';
 import * as Prism from 'prismjs';
 import { cssClassesToString, tagToCode } from '../sidePane';
 import { tag } from '../vsc/temp';
 
 import { css } from '@linaria/core';
 import '../styles/prism-themes/vs-dark.scss';
+import '../styles/renderCollection.scss';
 
 window.addEventListener('DOMContentLoaded', async function () {
   const root = document.createElement('div');
@@ -47,10 +48,57 @@ window.addEventListener('DOMContentLoaded', async function () {
     return Prism.highlight(code, Prism.languages[language], language);
   }
 
+  function onClassNameClick(className: string, nodes: HTMLCollectionOf<Element>) {
+    for (const node of nodes) {
+      if (node.textContent?.includes(className)) {
+        node.scrollIntoView({ behavior: 'smooth' });
+        break;
+      }
+    }
+  }
+
+  function createSpanClassNameComponent(className: string, onClick: () => void) {
+    const element = document.createElement('span');
+    element.textContent = className;
+    element.classList.add('class-name');
+    element.addEventListener('click', onClick);
+    return element;
+  }
+
+  function convertToClickableClassName(element: Element, styleNodes: HTMLCollectionOf<Element>) {
+    const textContent = element.childNodes[2].textContent;
+    if (textContent) {
+      const documentFragmant = document.createDocumentFragment();
+      textContent.split(' ').forEach((className) => {
+        documentFragmant.appendChild(
+          createSpanClassNameComponent(className, () => onClassNameClick(className, styleNodes)),
+        );
+        const spaceElement = document.createElement('span');
+        spaceElement.textContent = ' ';
+        documentFragmant.appendChild(spaceElement);
+      });
+      const delimiter = element.lastElementChild;
+      element.childNodes[2].textContent = ''; // removed text classname
+      documentFragmant.removeChild(documentFragmant.lastElementChild!); // remove extra space
+      element.appendChild(documentFragmant); // add span elements of classes
+      if (delimiter) element.appendChild(delimiter); // move last " to the end
+    }
+  }
+
   const [highlighted] = createResource(
     () => ({ language: 'html', code: displayCode, printWidth: 2 }),
     ({ language, code, printWidth }) => beautify(language, code, printWidth).then((code) => highlight(code, language)),
   );
+
+  createEffect(() => {
+    if (highlighted()) {
+      const styleNodes = document.getElementsByClassName('selector');
+      const classNodes = this.document.getElementsByClassName('attr-value');
+      for (let element of classNodes) {
+        convertToClickableClassName(element, styleNodes);
+      }
+    }
+  });
 
   render(
     () => (
